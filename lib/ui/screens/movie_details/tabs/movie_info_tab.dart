@@ -18,7 +18,7 @@ class MovieInfoTab extends StatelessWidget {
           store.movie.overview,
           textAlign: TextAlign.justify,
           style: TextStyle(
-            fontSize: sizes.safeBlockHorizontal * 4,
+            fontSize: sizes.safeBlockHorizontal * 3.5,
             color: Colors.white70,
           ),
         ),
