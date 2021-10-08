@@ -52,7 +52,7 @@ class _ActorCard extends StatelessWidget {
           color: Theme.of(context).accentColor,
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -81,7 +81,7 @@ class _ActorCard extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

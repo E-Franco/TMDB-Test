@@ -4,6 +4,7 @@ import '../../stores/movie_details_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import '../../data/model/movie.dart';
+import 'fade_animation.dart';
 import 'grow_transition.dart';
 
 class CardFlip extends StatefulWidget {
@@ -39,15 +40,18 @@ class _CardFlipState extends State<CardFlip> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Transform(
-        alignment: Alignment.center,
-        transform: Matrix4.identity()
-          ..setEntry(3, 2, 0.002)
-          ..rotateX(-pi * _animation.value),
-        child: Container(
-          child: _animation.value >= 0.5 ? widget.backWidget : widget.frontWidget,
+    return FadeAnimation(
+      1,
+      GestureDetector(
+        onTap: onTap,
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.002)
+            ..rotateX(-pi * _animation.value),
+          child: Container(
+            child: _animation.value >= 0.5 ? widget.backWidget : widget.frontWidget,
+          ),
         ),
       ),
     );
@@ -60,7 +64,7 @@ class _CardFlipState extends State<CardFlip> with TickerProviderStateMixin {
   }
 
   // Inicializa os controladores da animação
-  Future<void> initializeRotationController() async {
+  void initializeRotationController() {
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
 
@@ -71,11 +75,11 @@ class _CardFlipState extends State<CardFlip> with TickerProviderStateMixin {
   // Callback para alterações no status da animação
   void onAnimationStatusChanged(status) {
     if (status == AnimationStatus.completed) {
-      print(widget.movie.id);
       Navigator.of(context).push(
         PageRouteBuilder(
           transitionDuration: Duration(milliseconds: 500),
           barrierColor: Colors.black.withOpacity(.7),
+          maintainState: true,
           opaque: false,
           pageBuilder: (context, a, b) {
             return _TransitionWidget(

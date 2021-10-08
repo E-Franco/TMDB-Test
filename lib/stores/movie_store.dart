@@ -21,7 +21,7 @@ abstract class _MovieStoreBase with Store {
   @action
   Future<void> fetch() async {
     var response = await TMDBApi.instance.api.v3.discover.getMovies(
-      primaryReleaseYear: 2020,
+      primaryReleaseYear: 2021,
       sortBy: SortMoviesBy.voteCountDesc,
       page: page,
     );

@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import 'resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -12,6 +14,8 @@ void main() {
   initializeDateFormatting('pt_BR', null);
   GetIt.I.registerSingleton(GenreStore());
   GetIt.I.registerSingleton(MovieDetailsStore());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(AppRoot());
 }
 
@@ -23,6 +27,7 @@ class AppRoot extends StatelessWidget {
       home: HomeView(),
       theme: ThemeData(
         primaryColor: AppColors.primaryColor,
+        backgroundColor: AppColors.primaryColor,
         accentColor: AppColors.accentColor,
         textTheme: GoogleFonts.montserratTextTheme(),
       ),

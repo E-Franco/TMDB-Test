@@ -51,7 +51,7 @@ class _ReviewCard extends StatelessWidget {
           child: Card(
             color: Theme.of(context).accentColor,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,7 +61,7 @@ class _ReviewCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Text(
                       review.content,
-                      textAlign: TextAlign.justify,
+                      textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: sizes.safeBlockHorizontal * 3.5,
                         color: Colors.white70,

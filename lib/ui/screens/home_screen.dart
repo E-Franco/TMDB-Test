@@ -18,11 +18,10 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final MovieStore _movieStore = MovieStore();
   ScrollController _scrollController;
+  bool display = false;
 
   @override
   void initState() {
-    super.initState();
-
     // List infinita
     _scrollController = ScrollController();
     _scrollController.addListener(() {
@@ -30,6 +29,8 @@ class _HomeViewState extends State<HomeView> {
         _movieStore.fetch();
       }
     });
+
+    super.initState();
   }
 
   @override
@@ -42,12 +43,15 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
+      extendBody: true,
       body: SizeConfigWidget(
         builder: (context, sizes) {
-          return SafeArea(
-            child: ListView(
-              children: [
-                Container(
+          return ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => HomeView())),
+                child: Container(
                   alignment: FractionalOffset.centerRight,
                   padding: EdgeInsets.symmetric(
                     vertical: sizes.safeBlockVertical * 3,
@@ -56,36 +60,36 @@ class _HomeViewState extends State<HomeView> {
                   height: sizes.safeBlockVertical * 15,
                   child: Image.asset('assets/tmdb.png'),
                 ),
-                Observer(
-                  builder: (_) {
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: _scrollController,
-                      padding: EdgeInsets.all(sizes.safeBlockHorizontal * 3),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.7,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                      ),
-                      itemCount: _movieStore.movies.length,
-                      itemBuilder: (context, index) {
-                        final movie = _movieStore.movies[index];
-                        return Hero(
-                          tag: movie.id,
-                          child: CardFlip(
-                            movie: movie,
-                            frontWidget: buildFrontWidget(movie),
-                            backWidget: buildBackWidget(context),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
+              ),
+              Observer(
+                builder: (_) {
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: _scrollController,
+                    padding: EdgeInsets.all(sizes.safeBlockHorizontal * 3),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.7,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                    ),
+                    itemCount: _movieStore.movies.length,
+                    itemBuilder: (context, index) {
+                      final movie = _movieStore.movies[index];
+                      return Hero(
+                        tag: movie.id,
+                        child: CardFlip(
+                          movie: movie,
+                          frontWidget: buildFrontWidget(movie),
+                          backWidget: buildBackWidget(context),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
           );
         },
       ),
@@ -108,6 +112,8 @@ class _HomeViewState extends State<HomeView> {
         fit: BoxFit.cover,
         imageUrl: TMDBApi.instance.api.images.getUrl(movie.posterPath),
         placeholder: (context, label) => Image.memory(kTransparentImage),
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
       ),
     );
   }
