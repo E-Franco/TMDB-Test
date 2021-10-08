@@ -18,11 +18,10 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final MovieStore _movieStore = MovieStore();
   ScrollController _scrollController;
-  bool display = false;
 
   @override
   void initState() {
-    // List infinita
+    // Lista infinita
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.position.atEdge && _scrollController.position.pixels > 0) {
